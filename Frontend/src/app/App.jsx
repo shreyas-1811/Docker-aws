@@ -38,7 +38,7 @@ function App() {
     useEffect(() => {
       console.log(username)
       if(username){
-    const provider = new SocketIOProvider("http://localhost:3000", "monaco-demo", ydoc,{  //This will create a provider object which will be used to connect to the backend server and sync the ydoc with other clients
+    const provider = new SocketIOProvider("/", "monaco-demo", ydoc,{  //This will create a provider object which will be used to connect to the backend server and sync the ydoc with other clients
       autoConnect: true,  //This will automatically connect to the backend server when the component is mounted
     })  //This will connect to the backend server and sync the ydoc with other clients
     provider.awareness.setLocalStateField("user",{username})

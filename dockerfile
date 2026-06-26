@@ -1,5 +1,24 @@
-FROM node:20-alpine        //This will use the node:20-alpine image as the base image for the container
+# ---------- Frontend ----------
+FROM node:20-alpine AS frontend-builder
 
-COPY . /backend .  //This will copy all the files from the current directory to the /backend directory in the container
+WORKDIR /app
 
-CMD ["node", "server.js"]  //This will run the server.js file when the container is started
+COPY ./Frontend /app
+
+RUN npm install
+RUN npm run build
+
+# ---------- Backend ----------
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY ./backend /app
+
+RUN npm install
+
+COPY --from=frontend-builder /app/dist /app/public
+
+EXPOSE 5000
+
+CMD ["node", "server.js"]
